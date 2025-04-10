@@ -18,7 +18,11 @@
     }
     .navbar {
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      z-index: 1000; /* ensure navbar is above content */
+      z-index: 1000; /* Ensure navbar is above content */
+    }
+    /* Increase bottom margin so elements at page bottom can be reached */
+    .container {
+      margin-bottom: 200px;
     }
     /* Force test mode: all tab panes visible, no opacity or transitions */
     body.test-mode .tab-pane {
@@ -28,7 +32,7 @@
     .tab-pane {
       transition: none;
     }
-    /* Ensure interactable elements actually receive clicks */
+    /* Ensure interactable elements receive clicks */
     body.test-mode input,
     body.test-mode textarea,
     body.test-mode button,
@@ -36,11 +40,10 @@
       pointer-events: auto !important;
       opacity: 1 !important;
     }
-    /* Additional adjustments for cards */
-    .card {
-      margin-bottom: 20px;
+    /* Bring buttons to front */
+    .card button {
       position: relative;
-      z-index: 1;
+      z-index: 10;
     }
   </style>
 </head>
@@ -52,7 +55,6 @@
     </div>
   </nav>
   
-  <!-- Use an inline style to further offset the container if necessary -->
   <div class="container" style="margin-top:150px;">
     <!-- Tab Navigation -->
     <ul class="nav nav-tabs" id="assistantTabs" role="tablist">
