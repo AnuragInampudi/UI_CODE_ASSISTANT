@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UI Code Assistant - Code Generation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Font: Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #007bff;
+      --bg-color: #f4f6f8;
+      --card-bg: #ffffff;
+      --code-bg: #f8f9fa;
+      --text-color: #333;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      padding-top: 80px;
+    }
+    .navbar {
+      background: var(--card-bg);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .card {
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    pre {
+      background: var(--code-bg);
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body class="test-mode">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">UI Code Assistant</a>
+      <div class="ms-auto">
+        <a href="design-analysis.html" class="btn btn-link">Design Analysis</a>
+        <a href="code-optimization.html" class="btn btn-link">Code Optimization</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <h2>Code Generation</h2>
+
+    <!-- Generate Login Component Card -->
+    <div class="card">
+      <div class="card-header">Generate Login Component</div>
+      <div class="card-body">
+        <form id="loginGenForm">
+          <div class="mb-3">
+            <label for="usernameLabel" class="form-label">Username Field Label</label>
+            <input type="text" class="form-control" id="usernameLabel" placeholder="Enter username label">
+          </div>
+          <div class="mb-3">
+            <label for="passwordLabel" class="form-label">Password Field Label</label>
+            <input type="text" class="form-control" id="passwordLabel" placeholder="Enter password label">
+          </div>
+          <button type="submit" class="btn btn-primary">Generate Login Code</button>
+          <button type="button" id="clearLoginCode" class="btn btn-outline-secondary btn-sm">Clear</button>
+        </form>
+        <hr>
+        <h5>Generated Login Code:</h5>
+        <pre id="loginGeneratedCode"></pre>
+        <button id="copyLoginCode" class="btn btn-outline-secondary btn-sm">Copy Login Code</button>
+      </div>
+    </div>
+
+    <!-- Generate Shopping Cart Component Card -->
+    <div class="card">
+      <div class="card-header">Generate Shopping Cart Component</div>
+      <div class="card-body">
+        <form id="cartGenForm">
+          <div class="mb-3">
+            <label for="cartTitle" class="form-label">Cart Title</label>
+            <input type="text" class="form-control" id="cartTitle" placeholder="Enter cart title">
+          </div>
+          <div class="mb-3">
+            <label for="itemCount" class="form-label">Number of Items</label>
+            <input type="number" class="form-control" id="itemCount" placeholder="Enter number of items">
+          </div>
+          <button type="submit" class="btn btn-primary">Generate Cart Code</button>
+          <button type="button" id="clearCartCode" class="btn btn-outline-secondary btn-sm">Clear</button>
+        </form>
+        <hr>
+        <h5>Generated Shopping Cart Code:</h5>
+        <pre id="cartGeneratedCode"></pre>
+        <button id="copyCartCode" class="btn btn-outline-secondary btn-sm">Copy Cart Code</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bootstrap 5 JS Bundle and jQuery -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  <script>
+    // Utility functions
+    function copyToClipboard(elementId) {
+      const text = document.getElementById(elementId).innerText;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+      }
+    }
+    function clearContent(elementId) {
+      $('#' + elementId).text('');
+    }
+
+    // Login Generation Handler
+    $('#loginGenForm').on('submit', function(e) {
+      e.preventDefault();
+      const usernameLabel = $('#usernameLabel').val() || 'Username';
+      const passwordLabel = $('#passwordLabel').val() || 'Password';
+      const loginCode = `
+<form>
+  <div class="mb-3">
+    <label>${usernameLabel}</label>
+    <input type="text" class="form-control" placeholder="Enter ${usernameLabel}">
+  </div>
+  <div class="mb-3">
+    <label>${passwordLabel}</label>
+    <input type="password" class="form-control" placeholder="Enter ${passwordLabel}">
+  </div>
+  <button type="submit" class="btn btn-success">Login</button>
+</form>
+      `;
+      $('#loginGeneratedCode').text(loginCode.trim());
+    });
+    $('#clearLoginCode').on('click', function() {
+      clearContent('loginGeneratedCode');
+    });
+
+    // Shopping Cart Generation Handler
+    $('#cartGenForm').on('submit', function(e) {
+      e.preventDefault();
+      const cartTitle = $('#cartTitle').val() || 'Shopping Cart';
+      const itemCount = parseInt($('#itemCount').val()) || 3;
+      let cartItems = '';
+      for (let i = 1; i <= itemCount; i++) {
+        cartItems += `<li class="list-group-item">Item ${i}</li>`;
+      }
+      const cartCode = `
+<div class="card" style="width: 18rem;">
+  <div class="card-header">
+    ${cartTitle}
+  </div>
+  <ul class="list-group list-group-flush">
+    ${cartItems}
+  </ul>
+  <div class="card-body">
+    <button class="btn btn-primary">Checkout</button>
+  </div>
+</div>
+      `;
+      $('#cartGeneratedCode').text(cartCode.trim());
+    });
+    $('#clearCartCode').on('click', function() {
+      clearContent('cartGeneratedCode');
+    });
+
+    // Copy Button Handlers
+    $('#copyLoginCode').on('click', function() {
+      copyToClipboard('loginGeneratedCode');
+    });
+    $('#copyCartCode').on('click', function() {
+      copyToClipboard('cartGeneratedCode');
+    });
+  </script>
+</body>
+</html>

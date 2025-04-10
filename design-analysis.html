@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UI Code Assistant - Design Analysis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Font: Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #007bff;
+      --bg-color: #f4f6f8;
+      --card-bg: #ffffff;
+      --text-color: #333;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      padding-top: 80px;
+    }
+    .navbar {
+      background: var(--card-bg);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .card {
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    pre {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body class="test-mode">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">UI Code Assistant</a>
+      <div class="ms-auto">
+        <a href="code-generation.html" class="btn btn-link">Code Generation</a>
+        <a href="code-optimization.html" class="btn btn-link">Code Optimization</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <h2>Design Analysis</h2>
+    <div class="card">
+      <div class="card-header">UI Design Analysis</div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="designInput" class="form-label">Paste your design description or code</label>
+          <textarea class="form-control" id="designInput" rows="6" placeholder="Enter design description or code..."></textarea>
+        </div>
+        <button id="analyzeDesign" class="btn btn-secondary">Analyze Design</button>
+        <button type="button" id="clearDesignAnalysis" class="btn btn-outline-secondary btn-sm">Clear</button>
+        <hr>
+        <h5>Design Analysis Suggestions:</h5>
+        <pre id="designAnalysisOutput"></pre>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bootstrap 5 JS Bundle and jQuery -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $('#analyzeDesign').on('click', function() {
+      const designText = $('#designInput').val().toLowerCase();
+      let suggestions = "General Suggestions:\n";
+      if (designText.includes("color") || designText.includes("contrast")) {
+        suggestions += "- Increase color contrast for better accessibility.\n";
+      }
+      if (designText.includes("layout") || designText.includes("alignment")) {
+        suggestions += "- Ensure proper alignment of UI elements.\n";
+      }
+      if (designText.includes("spacing") || designText.includes("padding")) {
+        suggestions += "- Increase spacing between elements for improved readability.\n";
+      }
+      if (suggestions === "General Suggestions:\n") {
+        suggestions += "- Provide more details for specific suggestions.";
+      }
+      $('#designAnalysisOutput').text(suggestions);
+    });
+    $('#clearDesignAnalysis').on('click', function() {
+      $('#designInput').val('');
+      $('#designAnalysisOutput').text('');
+    });
+  </script>
+</body>
+</html>
