@@ -2,186 +2,163 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>UI Code Assistant - Improved Look</title>
+  <title>UI Code Assistant - Testing Mode</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Google Fonts: Roboto -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Font: Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* Global Styles */
+    /* Global styles */
     body {
       font-family: 'Roboto', sans-serif;
-      background: linear-gradient(135deg, #f6f9fc, #e9eff5);
-      padding-top: 70px;
-      color: #333;
+      background: #f4f6f8;
+      padding-top: 150px; /* Increased to avoid overlap from the fixed navbar */
+      min-height: 100vh;
     }
-    /* Navbar Styles */
     .navbar {
-      background-color: #ffffff;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000; /* ensure navbar is above content */
     }
-    /* Tab Navigation Enhancements */
-    .nav-tabs {
-      border-bottom: none;
+    /* Force test mode: all tab panes visible, no opacity or transitions */
+    body.test-mode .tab-pane {
+      display: block !important;
+      opacity: 1 !important;
     }
-    .nav-tabs .nav-link {
-      font-weight: 500;
-      color: #6c757d;
-      border: none;
-      border-bottom: 3px solid transparent;
-      transition: color 0.3s, border-bottom 0.3s;
-      margin: 0 10px;
-      padding: 10px 0;
+    .tab-pane {
+      transition: none;
     }
-    .nav-tabs .nav-link:hover {
-      color: #0056b3;
+    /* Ensure interactable elements actually receive clicks */
+    body.test-mode input,
+    body.test-mode textarea,
+    body.test-mode button,
+    body.test-mode select {
+      pointer-events: auto !important;
+      opacity: 1 !important;
     }
-    .nav-tabs .nav-link.active {
-      color: #0056b3;
-      border-bottom: 3px solid #0056b3;
-    }
-    /* Card Styles */
+    /* Additional adjustments for cards */
     .card {
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
       margin-bottom: 20px;
-      background-color: #ffffff;
-    }
-    .card-header {
-      background: none;
-      border-bottom: 1px solid #e9ecef;
-      font-size: 1.25rem;
-      font-weight: 500;
-    }
-    .card-body {
-      padding: 20px;
-    }
-    /* Code Output Styles */
-    pre {
-      background-color: #f8f9fa;
-      border: 1px solid #dee2e6;
-      border-radius: 5px;
-      padding: 15px;
-      white-space: pre-wrap;
-      word-wrap: break-word;
+      position: relative;
+      z-index: 1;
     }
   </style>
 </head>
-<body>
-
+<body class="test-mode">  <!-- Force test mode by default -->
   <!-- Navbar -->
-  <nav class="navbar fixed-top navbar-light">
+  <nav class="navbar fixed-top navbar-light bg-light">
     <div class="container">
       <a class="navbar-brand" href="#">UI Code Assistant</a>
     </div>
   </nav>
-
-  <div class="container">
+  
+  <!-- Use an inline style to further offset the container if necessary -->
+  <div class="container" style="margin-top:150px;">
     <!-- Tab Navigation -->
-    <ul class="nav nav-tabs justify-content-center" id="assistantTabs" role="tablist">
+    <ul class="nav nav-tabs" id="assistantTabs" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="code-gen-tab" data-bs-toggle="tab" href="#codeGen" role="tab" aria-controls="codeGen" aria-selected="true">Code Generation</a>
+        <a class="nav-link active" id="code-gen-tab" data-bs-toggle="tab" href="#codeGen" role="tab" aria-controls="codeGen" aria-selected="true">
+          Code Generation
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="design-analysis-tab" data-bs-toggle="tab" href="#designAnalysis" role="tab" aria-controls="designAnalysis" aria-selected="false">Design Analysis</a>
+        <a class="nav-link" id="design-analysis-tab" data-bs-toggle="tab" href="#designAnalysis" role="tab" aria-controls="designAnalysis" aria-selected="false">
+          Design Analysis
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="code-opt-tab" data-bs-toggle="tab" href="#codeOptimization" role="tab" aria-controls="codeOptimization" aria-selected="false">Code Optimization</a>
+        <a class="nav-link" id="code-opt-tab" data-bs-toggle="tab" href="#codeOptimization" role="tab" aria-controls="codeOptimization" aria-selected="false">
+          Code Optimization
+        </a>
       </li>
     </ul>
 
-    <!-- Tab Content -->
+    <!-- Tab Content (all panes forced visible in test mode) -->
     <div class="tab-content" id="assistantTabsContent">
       <!-- Code Generation Tab -->
-      <div class="tab-pane fade show active" id="codeGen" role="tabpanel" aria-labelledby="code-gen-tab">
-          <!-- Generate Login Component Card -->
-          <div class="card">
-            <div class="card-header">Generate Login Component</div>
-            <div class="card-body">
-              <form id="loginGenForm">
-                <div class="mb-3">
-                  <label for="usernameLabel" class="form-label">Username Field Label</label>
-                  <input type="text" class="form-control" id="usernameLabel" placeholder="Enter username label">
-                </div>
-                <div class="mb-3">
-                  <label for="passwordLabel" class="form-label">Password Field Label</label>
-                  <input type="text" class="form-control" id="passwordLabel" placeholder="Enter password label">
-                </div>
-                <button type="submit" class="btn btn-primary">Generate Login Code</button>
-              </form>
-              <hr>
-              <h5 class="mt-3">Generated Login Code:</h5>
-              <pre id="loginGeneratedCode"></pre>
-            </div>
+      <div class="tab-pane active" id="codeGen" role="tabpanel" aria-labelledby="code-gen-tab">
+        <!-- Generate Login Component Card -->
+        <div class="card">
+          <div class="card-header">Generate Login Component</div>
+          <div class="card-body">
+            <form id="loginGenForm">
+              <div class="mb-3">
+                <label for="usernameLabel" class="form-label">Username Field Label</label>
+                <input type="text" class="form-control" id="usernameLabel" placeholder="Enter username label">
+              </div>
+              <div class="mb-3">
+                <label for="passwordLabel" class="form-label">Password Field Label</label>
+                <input type="text" class="form-control" id="passwordLabel" placeholder="Enter password label">
+              </div>
+              <button type="submit" class="btn btn-primary">Generate Login Code</button>
+            </form>
+            <hr>
+            <h5>Generated Login Code:</h5>
+            <pre id="loginGeneratedCode"></pre>
           </div>
-          
-          <!-- Generate Shopping Cart Component Card -->
-          <div class="card">
-            <div class="card-header">Generate Shopping Cart Component</div>
-            <div class="card-body">
-              <form id="cartGenForm">
-                <div class="mb-3">
-                  <label for="cartTitle" class="form-label">Cart Title</label>
-                  <input type="text" class="form-control" id="cartTitle" placeholder="Enter cart title">
-                </div>
-                <div class="mb-3">
-                  <label for="itemCount" class="form-label">Number of Items</label>
-                  <input type="number" class="form-control" id="itemCount" placeholder="Enter number of items">
-                </div>
-                <button type="submit" class="btn btn-primary">Generate Cart Code</button>
-              </form>
-              <hr>
-              <h5 class="mt-3">Generated Shopping Cart Code:</h5>
-              <pre id="cartGeneratedCode"></pre>
-            </div>
+        </div>
+        <!-- Generate Shopping Cart Component Card -->
+        <div class="card">
+          <div class="card-header">Generate Shopping Cart Component</div>
+          <div class="card-body">
+            <form id="cartGenForm">
+              <div class="mb-3">
+                <label for="cartTitle" class="form-label">Cart Title</label>
+                <input type="text" class="form-control" id="cartTitle" placeholder="Enter cart title">
+              </div>
+              <div class="mb-3">
+                <label for="itemCount" class="form-label">Number of Items</label>
+                <input type="number" class="form-control" id="itemCount" placeholder="Enter number of items">
+              </div>
+              <button type="submit" class="btn btn-primary">Generate Cart Code</button>
+            </form>
+            <hr>
+            <h5>Generated Shopping Cart Code:</h5>
+            <pre id="cartGeneratedCode"></pre>
           </div>
+        </div>
       </div>
-
       <!-- Design Analysis Tab -->
-      <div class="tab-pane fade" id="designAnalysis" role="tabpanel" aria-labelledby="design-analysis-tab">
-          <div class="card">
-            <div class="card-header">UI Design Analysis</div>
-            <div class="card-body">
-              <div class="mb-3">
-                <label for="designInput" class="form-label">Paste your design description or code</label>
-                <textarea class="form-control" id="designInput" rows="6" placeholder="Enter design description or code..."></textarea>
-              </div>
-              <button id="analyzeDesign" class="btn btn-secondary">Analyze Design</button>
-              <hr>
-              <h5 class="mt-3">Design Analysis Suggestions:</h5>
-              <pre id="designAnalysisOutput"></pre>
+      <div class="tab-pane" id="designAnalysis" role="tabpanel" aria-labelledby="design-analysis-tab">
+        <div class="card">
+          <div class="card-header">UI Design Analysis</div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label for="designInput" class="form-label">Paste your design description or code</label>
+              <textarea class="form-control" id="designInput" rows="6" placeholder="Enter design description or code..."></textarea>
             </div>
+            <button id="analyzeDesign" class="btn btn-secondary">Analyze Design</button>
+            <hr>
+            <h5>Design Analysis Suggestions:</h5>
+            <pre id="designAnalysisOutput"></pre>
           </div>
+        </div>
       </div>
-
       <!-- Code Optimization Tab -->
-      <div class="tab-pane fade" id="codeOptimization" role="tabpanel" aria-labelledby="code-opt-tab">
-          <div class="card">
-            <div class="card-header">UI Code Optimization</div>
-            <div class="card-body">
-              <div class="mb-3">
-                <label for="codeInput" class="form-label">Paste your UI code</label>
-                <textarea class="form-control" id="codeInput" rows="6" placeholder="Enter your UI code..."></textarea>
-              </div>
-              <button id="optimizeCode" class="btn btn-secondary">Optimize Code</button>
-              <hr>
-              <h5 class="mt-3">Code Optimization Suggestions:</h5>
-              <pre id="codeOptimizationOutput"></pre>
+      <div class="tab-pane" id="codeOptimization" role="tabpanel" aria-labelledby="code-opt-tab">
+        <div class="card">
+          <div class="card-header">UI Code Optimization</div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label for="codeInput" class="form-label">Paste your UI code</label>
+              <textarea class="form-control" id="codeInput" rows="6" placeholder="Enter your UI code..."></textarea>
             </div>
+            <button id="optimizeCode" class="btn btn-secondary">Optimize Code</button>
+            <hr>
+            <h5>Code Optimization Suggestions:</h5>
+            <pre id="codeOptimizationOutput"></pre>
           </div>
+        </div>
       </div>
-    </div> <!-- End Tab Content -->
-    
-  </div> <!-- End Container -->
+    </div>
+  </div>
 
-  <!-- jQuery (for our custom script) -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- Bootstrap 5 JS Bundle (includes Popper) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    // Login Component Code Generation
+    // --- Login Generation Handler ---
     $('#loginGenForm').on('submit', function(e) {
       e.preventDefault();
       const usernameLabel = $('#usernameLabel').val() || 'Username';
@@ -202,7 +179,7 @@
       $('#loginGeneratedCode').text(loginCode.trim());
     });
 
-    // Shopping Cart Component Code Generation
+    // --- Shopping Cart Generation Handler ---
     $('#cartGenForm').on('submit', function(e) {
       e.preventDefault();
       const cartTitle = $('#cartTitle').val() || 'Shopping Cart';
@@ -228,7 +205,7 @@
       $('#cartGeneratedCode').text(cartCode.trim());
     });
 
-    // UI Design Analysis (Sample Implementation)
+    // --- Design Analysis Handler ---
     $('#analyzeDesign').on('click', function() {
       const designText = $('#designInput').val().toLowerCase();
       let suggestions = "General Suggestions:\n";
@@ -247,7 +224,7 @@
       $('#designAnalysisOutput').text(suggestions);
     });
 
-    // UI Code Optimization (Sample Implementation)
+    // --- Code Optimization Handler ---
     $('#optimizeCode').on('click', function() {
       const codeText = $('#codeInput').val().toLowerCase();
       let suggestions = "Optimization Suggestions:\n";
